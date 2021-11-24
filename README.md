@@ -35,7 +35,7 @@ Tutorials are avaliable in the [`docs`](docs) folder.
 [**GproDIA Tutorial: Using Semi-Empirical Library**](docs/semiempirical_library.md) describes the analysis workflow for the serum dataset with extended library coverage by generating semi-empirical library spectra.
 
 ## Publications
-Yang, Y., Cao, W., Yan, G., Kong, S., Wu, M., Yang, P., Qiao, L. GproDIA enables data-independent acquisition glycoproteomics with comprehensive statistical control. bioRxiv. https://doi.org/10.1101/2021.03.20.436117.
+Yang, Y., Yan, G., Kong, S., Wu, M., Yang, P., Cao, W., Qiao, L. GproDIA enables data-independent acquisition glycoproteomics with comprehensive statistical control. *Nat Commun* **12**, 6073 (2021). http://doi.org/10.1038/s41467-021-26246-3
 
 ## License
 GproDIA is distributed under a BSD license. See the LICENSE file for details.
