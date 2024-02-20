@@ -27,14 +27,14 @@ Tutorial data of a fission yeast sample are available at [ProteomeXchange](http:
 ### Starting Materials
 #### LC-MS/MS Raw Data
 LC-MS/MS raw data, including 3 DDA runs of 6 h gradient for spectra library building, 1 DDA run of 1 h gradient for retention time calibration, and 4 DIA technical replicates of 1 h gradient:
-- fissionyesat_NGP_DDA_6h_1_201210180855.raw
-- fissionyesat_NGP_DDA_6h_2_201211010726.raw
-- fissionyesat_NGP_DDA_6h_3.raw
-- fissionyesat_NGP_DDA_4.raw
-- fissionyesat_NGP_DIA_1.raw
-- fissionyesat_NGP_DIA_2.raw
-- fissionyesat_NGP_DIA_3.raw
-- fissionyesat_NGP_DIA_4.raw
+- fissionyeast_NGP_DDA_6h_1_201210180855.raw
+- fissionyeast_NGP_DDA_6h_2_201211010726.raw
+- fissionyeast_NGP_DDA_6h_3.raw
+- fissionyeast_NGP_DDA_4.raw
+- fissionyeast_NGP_DIA_1.raw
+- fissionyeast_NGP_DIA_2.raw
+- fissionyeast_NGP_DIA_3.raw
+- fissionyeast_NGP_DIA_4.raw
 
 #### SWATH Windows File
 - swath_window.tsv
@@ -59,11 +59,11 @@ The result files have also been deposited to the ProteomeXchange/iProX repositor
 #### DDA Database Search Results
 Database search results of the DDA data, and processed MS/MS sptectra (MGF) output by pGlyco:
 - pGlycoDB-GP-FDR-Pro.txt (in fissionyeast_DDA6h_pGlyco.zip)
-- fissionyesat_NGP_DDA_6h_1_201210180855_HCDFT.mgf
-- fissionyesat_NGP_DDA_6h_2_201211010726_HCDFT.mgf
-- fissionyesat_NGP_DDA_6h_3_HCDFT.mgf
+- fissionyeast_NGP_DDA_6h_1_201210180855_HCDFT.mgf
+- fissionyeast_NGP_DDA_6h_2_201211010726_HCDFT.mgf
+- fissionyeast_NGP_DDA_6h_3_HCDFT.mgf
 - pGlycoDB-GP-FDR-Pro.txt (in fissionyeast_DDA1h_pGlyco.zip)
-- fissionyesat_NGP_DDA_4_HCDFT.mgf
+- fissionyeast_NGP_DDA_4_HCDFT.mgf
 
 #### Spectral Library
 A SQLite-based spectral library file (PQP) built from the DDA results, and a transition file (TraML) for retention time normalization:
@@ -89,9 +89,9 @@ Perform database searching on the raw DDA data files using pGlyco. See [pGlyco U
 
 Create a subdirectory named `DDA` in the project directory. Create subdirectories `fissionyeast_6h` and `fissionyeast_1h` in the `$data_path\DDA` directory, and move the result (`pGlycoDB-GP-FDR-Pro.txt`) and MS/MS spectra files (`*.mgf`) of 6 h and 1 h DDA into the corresponding directories.
 - DDA\fissionyeast_6h\pGlycoDB-GP-FDR-Pro.txt
-- DDA\fissionyeast_6h\fissionyesat_NGP_DDA_6h_*.mgf
+- DDA\fissionyeast_6h\fissionyeast_NGP_DDA_6h_*.mgf
 - DDA\fissionyeast_1h\pGlycoDB-GP-FDR-Pro.txt
-- DDA\fissionyeast_1h\fissionyesat_NGP_DDA_4_HCDFT.mgf
+- DDA\fissionyeast_1h\fissionyeast_NGP_DDA_4_HCDFT.mgf
 
 ### Spectrum Annotation
 Extract and annotate identified MS/MS spectra from the 6 h DDA results.
@@ -102,7 +102,7 @@ python "$script_path\build_assays_from_pGlyco_mgf.py" `
 --clean_glycan_struct `
 --clean_glycan_site `
 --psm "$data_path\DDA\fissionyeast_6h\pGlycoDB-GP-FDR-Pro.txt" `
---mgf (ls "$data_path\DDA\fissionyeast_6h\" "fissionyesat_NGP_DDA_6h_*.mgf" | select -ExpandProperty FullName) `
+--mgf (ls "$data_path\DDA\fissionyeast_6h\" "fissionyeast_NGP_DDA_6h_*.mgf" | select -ExpandProperty FullName) `
 --out "$data_path\library\fissionyeast\fissionyeast_6h.assay.pickle" 
 ```
 A subdirectory named `library` is created in the project directory. The extracted and annotated spectra are imported into a Python binary file (`*.assay.pickle`).
@@ -113,7 +113,7 @@ python "$script_path\build_assays_from_pGlyco_mgf.py" `
 --clean_glycan_struct `
 --clean_glycan_site `
 --psm "$data_path\DDA\fissionyeast_1h\pGlycoDB-GP-FDR-Pro.txt" `
---mgf "$data_path\DDA\fissionyeast_1h\fissionyesat_NGP_DDA_4_HCDFT.mgf" `
+--mgf "$data_path\DDA\fissionyeast_1h\fissionyeast_NGP_DDA_4_HCDFT.mgf" `
 --out "$data_path\library\fissionyeast\fissionyeast_1h.assay.pickle" 
 ```
 
