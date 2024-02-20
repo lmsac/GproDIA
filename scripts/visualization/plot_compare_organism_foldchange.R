@@ -157,10 +157,15 @@ if (exists('report_matrices_list') && exists('output_dir')) {
       #   ) + 
       #   coord_cartesian(ylim = c(0.25, 4))
       
+      res$plot = res$plot + theme(
+        strip.text = element_blank(), 
+        axis.ticks.x = element_blank(), 
+        panel.spacing.x = unit(0.5, 'cm')
+      )
       ggsave(
         paste0(output_dir, '/', 'bar_compare_organism_fold_change_', level, '.svg'), 
         res$plot, 
-        width = 10, height = 6.25, unit = 'cm'
+        width = 15, height = 6, unit = 'cm'
       )
       
       res$data

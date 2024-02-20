@@ -99,12 +99,12 @@ if (exists('report_matrices_list') && exists('output_dir')) {
         return_data = TRUE
       )
       
-      res$plot = res$plot + theme(strip.text.y = element_blank())
+      res$plot = res$plot + theme(strip.text.x = element_blank(), strip.text.y = element_blank(), panel.spacing.x = unit(0.5, 'cm'))
       
       ggsave(
         paste0(output_dir, '/', 'density_compare_cv_', level, '.svg'), 
         res$plot, 
-        width = 5, height = 5, unit = 'cm'
+        width = 14, height = 5, unit = 'cm'
       )
       
       res$data

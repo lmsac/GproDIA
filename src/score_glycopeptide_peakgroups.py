@@ -40,14 +40,14 @@ from hyperopt import hp
 # Processing
 @click.option('--threads', default=1, show_default=True, type=int, help='Number of threads used for semi-supervised learning. -1 means all available CPUs.', callback=transform_threads)
 @click.option('--test/--no-test', default=False, show_default=True, help='Run in test mode with fixed seed.')
-def score(infile, outfile, classifier, 
-          xgb_autotune, apply_weights, xeval_fraction, xeval_num_iter, 
-          ss_initial_fdr, ss_iteration_fdr, ss_num_iter, ss_main_score, 
-          group_id, density_estimator, grid_size, parametric, pfdr, 
-          pi0_lambda, pi0_method, pi0_smooth_df, pi0_smooth_log_pi0, 
+def score(infile, outfile, classifier,
+          xgb_autotune, apply_weights, xeval_fraction, xeval_num_iter,
+          ss_initial_fdr, ss_iteration_fdr, ss_num_iter, ss_main_score,
+          group_id, density_estimator, grid_size, parametric, pfdr,
+          pi0_lambda, pi0_method, pi0_smooth_df, pi0_smooth_log_pi0,
           lfdr_truncate, lfdr_monotone, level, tric_chromprob, threads, test):
     """
-    Conduct semi-supervised learning and error-rate estimation for MS1 and MS2-level data. 
+    Conduct semi-supervised learning and error-rate estimation for MS1 and MS2-level data.
     """
 
     if outfile is None:
@@ -64,54 +64,53 @@ def score(infile, outfile, classifier,
 
     if not apply_weights:
         GlycoPeptideProphetLearner(
-            infile, outfile, 
-            classifier=classifier, 
-            xgb_hyperparams=xgb_hyperparams, xgb_params=xgb_params, 
-            xgb_params_space=xgb_params_space, 
-            xeval_fraction=xeval_fraction, 
-            xeval_num_iter=xeval_num_iter, 
-            ss_initial_fdr=ss_initial_fdr, 
-            ss_iteration_fdr=ss_iteration_fdr, 
-            ss_num_iter=ss_num_iter, 
+            infile, outfile,
+            classifier=classifier,
+            xgb_hyperparams=xgb_hyperparams, xgb_params=xgb_params,
+            xgb_params_space=xgb_params_space,
+            xeval_fraction=xeval_fraction,
+            xeval_num_iter=xeval_num_iter,
+            ss_initial_fdr=ss_initial_fdr,
+            ss_iteration_fdr=ss_iteration_fdr,
+            ss_num_iter=ss_num_iter,
             ss_main_score=ss_main_score,
-            group_id=group_id, 
+            group_id=group_id,
             density_estimator=density_estimator,
             grid_size=grid_size,
-            parametric=parametric, pfdr=pfdr, 
-            pi0_lambda=pi0_lambda, pi0_method=pi0_method, 
-            pi0_smooth_df=pi0_smooth_df, 
-            pi0_smooth_log_pi0=pi0_smooth_log_pi0, 
-            lfdr_truncate=lfdr_truncate,             
-            lfdr_monotone=lfdr_monotone, 
+            parametric=parametric, pfdr=pfdr,
+            pi0_lambda=pi0_lambda, pi0_method=pi0_method,
+            pi0_smooth_df=pi0_smooth_df,
+            pi0_smooth_log_pi0=pi0_smooth_log_pi0,
+            lfdr_truncate=lfdr_truncate,
+            lfdr_monotone=lfdr_monotone,
             level=level,
             tric_chromprob=tric_chromprob,
             threads=threads, test=test
         ).run()
     else:
         GlycoPeptideProphetWeightApplier(
-            infile, outfile, 
-            classifier=classifier,             
-            xgb_hyperparams=xgb_hyperparams, xgb_params=xgb_params, 
-            xgb_params_space=xgb_params_space, 
-            xeval_fraction=xeval_fraction, 
-            xeval_num_iter=xeval_num_iter, 
-            ss_initial_fdr=ss_initial_fdr, 
-            ss_iteration_fdr=ss_iteration_fdr, 
-            ss_num_iter=ss_num_iter, 
+            infile, outfile, apply_weights,
+            classifier=classifier,
+            xgb_hyperparams=xgb_hyperparams, xgb_params=xgb_params,
+            xgb_params_space=xgb_params_space,
+            xeval_fraction=xeval_fraction,
+            xeval_num_iter=xeval_num_iter,
+            ss_initial_fdr=ss_initial_fdr,
+            ss_iteration_fdr=ss_iteration_fdr,
+            ss_num_iter=ss_num_iter,
             ss_main_score=ss_main_score,
-            group_id=group_id, 
+            group_id=group_id,
             density_estimator=density_estimator,
             grid_size=grid_size,
-            parametric=parametric, pfdr=pfdr, 
-            pi0_lambda=pi0_lambda, pi0_method=pi0_method, 
-            pi0_smooth_df=pi0_smooth_df, 
-            pi0_smooth_log_pi0=pi0_smooth_log_pi0, 
-            lfdr_truncate=lfdr_truncate, 
-            lfdr_monotone=lfdr_monotone, 
+            parametric=parametric, pfdr=pfdr,
+            pi0_lambda=pi0_lambda, pi0_method=pi0_method,
+            pi0_smooth_df=pi0_smooth_df,
+            pi0_smooth_log_pi0=pi0_smooth_log_pi0,
+            lfdr_truncate=lfdr_truncate,
+            lfdr_monotone=lfdr_monotone,
             level=level,
             tric_chromprob=tric_chromprob,
-            threads=threads, test=test,
-            apply_weights=apply_weights
+            threads=threads, test=test
         ).run()
 
 

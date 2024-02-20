@@ -105,7 +105,9 @@ if (exists('reports') && exists('output_dir')) {
     entrapment_identifications = lapply(levels, function(level) {
       res = plot.compare.entrapment.identifications(
         reports, level, return_data = TRUE, 
-        use_struct = TRUE, use_site = TRUE
+        use_struct = TRUE, use_site = TRUE,
+        entrapment_peptide = ' ',
+        entrapment_glycan = '[XG]'
       )
       
       res$plot = res$plot + theme(strip.text = element_blank())
@@ -113,7 +115,7 @@ if (exists('reports') && exists('output_dir')) {
       ggsave(
         paste0(output_dir, '/', 'bar_compare_entrapment_identification_', level, '.svg'), 
         res$plot, 
-        width = 14, height = 6, unit = 'cm'
+        width = 12, height = 6, unit = 'cm'
       )
       
       res$data

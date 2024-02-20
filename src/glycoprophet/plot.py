@@ -24,6 +24,7 @@ def read_feature_transition(infile, run_id,
                             max_peakgroup_rank=None,
                             max_rs_peakgroup_qvalue=None,
                             max_glycoform_qvalue=None,
+                            max_transition_pep=None,
                             include_decoy=False):
     con = sqlite3.connect(infile)
 
@@ -94,6 +95,8 @@ INNER JOIN SCORE_GLYCOFORM ON SCORE_GLYCOFORM.FEATURE_ID = FEATURE.ID
                           AND SCORE_GLYCOFORM.GLYCOPEPTIDE_ID = GLYCOPEPTIDE.ID
 LEFT JOIN FEATURE_TRANSITION ON TRANSITION.ID = FEATURE_TRANSITION.TRANSITION_ID
                             AND FEATURE.ID = FEATURE_TRANSITION.FEATURE_ID
+LEFT JOIN SCORE_TRANSITION ON SCORE_TRANSITION.TRANSITION_ID = FEATURE_TRANSITION.TRANSITION_ID
+                            AND SCORE_TRANSITION.FEATURE_ID = FEATURE_TRANSITION.FEATURE_ID
 LEFT JOIN (
     SELECT TRANSITION_ID,
            GLYCOPEPTIDE_ID
@@ -106,7 +109,10 @@ LEFT JOIN (
         # conditions['TRANSITION.IDENTIFYING'] = 1
         conditions['SCORE_GLYCOFORM.QVALUE <'] = max_glycoform_qvalue
 
-        conditions['TRANSITION.DETECTING = 1 OR IFNULL(FEATURE_TRANSITION.TRANSITION_ID, -1) !='] = -1
+        if max_transition_pep is not None:
+            conditions['TRANSITION.DETECTING = 1 OR IFNULL(SCORE_TRANSITION.PEP, 10) <'] = max_transition_pep
+        else:
+            conditions['TRANSITION.DETECTING = 1 OR IFNULL(FEATURE_TRANSITION.TRANSITION_ID, -1) !='] = -1
     else:
         query_column += ''',
            SCORE_MS2.QVALUE AS m_score
@@ -457,6 +463,18 @@ def plot_feature_ms2_chromatograms(ax, feature,
                 **kwargs
             )
 
+    ax.axvline(
+        x=feature['metadata']['leftWidth'],
+        linestyle=':',
+        color='gray',
+        linewidth=0.5
+    )
+    ax.axvline(
+        x=feature['metadata']['rightWidth'],
+        linestyle=':',
+        color='gray',
+        linewidth=0.5
+    )
 
     ax.set_title(title)
     ax.set_xlabel(xlabel)
@@ -717,14 +735,14 @@ def plot_peakgroup_features(features, pdf_path, glycoform=False):
                     nonquantifying_detecting_transitions=True
                 )
             else:
-                plot_feature_ms2_spectrum(
+                plot_feature_ms2_spectrum_comparison(
                     ax, feature,
                     title= \
                         'TransitionGroup: ' + str(feature['metadata']['transitionGroupID']) + '\n' + \
                         'Q-value: ' + str(feature['metadata']['qvalue']) + '\n',
-                    quantifying_transitions=False,
+                    quantifying_transitions=1,
                     identifying_transitions=True,
-                    nonquantifying_detecting_transitions=False
+                    nonquantifying_detecting_transitions=True
                 )
 
             if idx % 3 == 2 or idx == len(features) - 1:
@@ -738,6 +756,7 @@ def export_peakgroup_plots(osw_file, mzml_file, swath_window_file,
                            max_peakgroup_rank=None,
                            max_rs_peakgroup_qvalue=None,
                            max_glycoform_qvalue=None,
+                           max_transition_pep=None,
                            include_decoy=False,
                            tolerance=20, tolerance_unit='ppm'):
     swath_windows = pd.read_csv(swath_window_file, sep='\t')
@@ -778,6 +797,7 @@ def export_peakgroup_plots(osw_file, mzml_file, swath_window_file,
         max_peakgroup_rank=max_peakgroup_rank,
         max_rs_peakgroup_qvalue=max_rs_peakgroup_qvalue,
         max_glycoform_qvalue=max_glycoform_qvalue,
+        max_transition_pep=max_transition_pep,
         include_decoy=include_decoy
     )
     if run_id is None:

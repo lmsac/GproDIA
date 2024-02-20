@@ -71,7 +71,7 @@ plot.compare.run.identifications = function(reports, level, ..., return_data = F
       )[[level]],
       expand = expand_scale(mult = c(0, 0.075))
     ) +
-    facet_grid(cols = vars(dataset), scales = 'free_x', space = 'free_x') +
+    facet_grid(cols = vars(paste(dataset, group)), scales = 'free_x', space = 'free_x') +
     theme(
       axis.line.x = element_line(), 
       axis.line.y = element_line(), 
@@ -102,14 +102,14 @@ if (exists('reports') && exists('output_dir')) {
     levels = c('precursor', 'glycopeptide', 'siteglycan', 'glycosite', 'peptide', 'protein')
     
     run_identifications = lapply(levels, function(level) {
-      res = plot.compare.run.identifications(reports, level, return_data = TRUE)
+      res = plot.compare.run.identifications(reports, level, run_groups = run_groups, return_data = TRUE)
       
       res$plot = res$plot + theme(strip.text = element_blank())
       
       ggsave(
         paste0(output_dir, '/', 'bar_compare_run_identification_', level, '.svg'), 
         res$plot, 
-        width = 12, height = 6, unit = 'cm'
+        width = 18, height = 6, unit = 'cm'
       )
       
       res$data
@@ -173,7 +173,7 @@ plot.compare.cumulative.identifications = function(reports, level, ..., return_d
       )[[level]],
       expand = expand_scale(mult = c(0, 0.075))
     ) +
-    facet_grid(cols = vars(dataset), scales = 'free_x', space = 'free_x') +
+    facet_grid(cols = vars(paste(dataset, group)), scales = 'free_x', space = 'free_x') +
     theme(
       axis.line.x = element_line(), 
       axis.line.y = element_line(), 
@@ -204,14 +204,14 @@ if (exists('reports') && exists('output_dir')) {
     levels = c('precursor', 'glycopeptide', 'siteglycan', 'glycosite', 'peptide', 'protein')
     
     cumulative_identifications = lapply(levels, function(level) {
-      res = plot.compare.cumulative.identifications(reports, level, return_data = TRUE)
+      res = plot.compare.cumulative.identifications(reports, level, run_groups = run_groups, return_data = TRUE)
       
       res$plot = res$plot + theme(strip.text = element_blank())
       
       ggsave(
         paste0(output_dir, '/', 'bar_compare_cumulative_identification_', level, '.svg'), 
         res$plot, 
-        width = 12, height = 6, unit = 'cm'
+        width = 18, height = 6, unit = 'cm'
       )
       
       res$data
